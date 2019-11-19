@@ -55,10 +55,8 @@ public static final String username = "lux-customer-zone-xx_residential-route_er
         int proxy_session_id = rng.nextInt(Integer.MAX_VALUE);
         InetAddress address = null;
         try {
-//            address = InetAddress.getByName("session-"+proxy_session_id+"-servercountry-CN.zproxy.lum-superproxy.io");
             address = InetAddress.getByName("session-"+proxy_session_id+".zproxy.lum-superproxy.io");
             String host = address.getHostAddress();
-//            this.country = "cn";
             this.host = host;
         } catch (UnknownHostException e) {
             e.printStackTrace();

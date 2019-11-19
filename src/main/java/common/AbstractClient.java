@@ -56,27 +56,21 @@ public abstract class AbstractClient {
     public HttpGet getHttpGet(String url, Map<String, String> headers) {
         HttpGet request = new HttpGet(url);
         setHeader(request, headers);
-//        request.setHeader("Cookie","__mta=189225876.1541475090481.1542092543315.1542099303262.4; cy=1; cye=shanghai; _lxsdk_cuid=166e712f543c8-0df63ef9a46da6-b79183d-1fa400-166e712f545c8; _lxsdk=166e712f543c8-0df63ef9a46da6-b79183d-1fa400-166e712f545c8; _hc.v=7268991b-73c7-b57c-2776-5dc478a33929.1541475071; s_ViewType=10; ua=dpuser_5287359417; ctu=169aa4930fd9454130198a15c18d46eb1e451d422db2f23031f60aa8ee3b6298; cityid=1; aburl=1; Hm_lvt_dbeeb675516927da776beeb1d9802bd4=1542534795; _lxsdk_s=1672c094d17-fb6-74a-60c%7C%7C354");
         return request;
     }
 
     public HttpPost getHttpPost(String url, Map<String, String> headers, String data) throws UnsupportedEncodingException {
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("User-Agent", user_agents.get(rng.nextInt(user_agents.size())));
-        if (headers != null) {
-            for (String key : headers.keySet()) {
-                httpPost.setHeader(key, headers.get(key));
-            }
-        }
+        HttpPost request = new HttpPost(url);
+        setHeader(request, headers);
         StringEntity jsondata = new StringEntity(data);
 //        jsondata.setContentEncoding(Charsets.UTF_8.toString());
         jsondata.setContentType("application/json");
 //        HttpEntityWrapper entityWrapper = new HttpEntityWrapper(jsondata);
-        httpPost.setEntity(jsondata);
-        return httpPost;
+        request.setEntity(jsondata);
+        return request;
     }
 
-    public void setHeader(HttpRequestBase request, Map<String, String> headers) {
+    private void setHeader(HttpRequestBase request, Map<String, String> headers) {
         request.setHeader("User-Agent", user_agents.get(rng.nextInt(user_agents.size())));
         request.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
         request.setHeader("Accept-Encoding","gzip, deflate");
@@ -90,6 +84,7 @@ public abstract class AbstractClient {
         }
     }
 
+    // Form 表单请求
     public CloseableHttpResponse postFormRequest(String url, HttpClientContext context, Map<String,String> headers, Map<String, String> formParams) throws IOException {
         try {
             HttpPost request = new HttpPost(url);

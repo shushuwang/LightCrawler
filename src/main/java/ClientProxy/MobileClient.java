@@ -17,21 +17,21 @@ import java.io.IOException;
 import java.util.Random;
 
 public class MobileClient {
-    public static final String username = "lum-customer-zone-mobile";
-    public static final String password = "fy78xxxxxxx";
-    public static final int port = 22225;
-    public static final String user_agent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
-    public static final int max_failures = 3;
-    public static final int req_timeout = 5*1000;
-    public static final int socket_timeout = 8*1000;
-    public String session_id;
-    public HttpHost super_proxy;
-    public CloseableHttpClient client;
-    public String country;
-    public int fail_count;
-    public int n_req_for_exit_node;
-    public Random rng;
-    public String host;
+    private static final String username = "lum-customer-zone-mobile";
+    private static final String password = "fy78xxxxxxx";
+    private static final int port = 22225;
+    private static final String user_agent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
+    private static final int max_failures = 3;
+    private static final int req_timeout = 5*1000;
+    private static final int socket_timeout = 8*1000;
+    private String session_id;
+    private HttpHost super_proxy;
+    private CloseableHttpClient client;
+    private String country;
+    private int fail_count;
+    private int n_req_for_exit_node;
+    private Random rng;
+    private String host;
 
     public MobileClient(String country, String host) {
         this.country = country;
@@ -40,14 +40,14 @@ public class MobileClient {
         switch_session_id();
     }
 
-    public void switch_session_id() {
+    private void switch_session_id() {
         session_id = Integer.toString(rng.nextInt(Integer.MAX_VALUE));
         n_req_for_exit_node = 0;
         super_proxy = new HttpHost(host, port);
         update_client();
     }
 
-    public void update_client() {
+    private void update_client() {
         close();
         String login = username+(country!=null ? "-restaurants-"+country : "")
                 +"-dns-remote-mobile-session-" + session_id;
@@ -84,7 +84,7 @@ public class MobileClient {
         }
     }
 
-    public void handle_response(HttpResponse response) {
+    private void handle_response(HttpResponse response) {
         if (response != null && !status_code_requires_exit_node_switch(
                 response.getStatusLine().getStatusCode())) {
             // success or other clientWithProxy/website error like 404...
@@ -96,7 +96,7 @@ public class MobileClient {
         fail_count++;
     }
 
-    public boolean status_code_requires_exit_node_switch(int code) {
+    private boolean status_code_requires_exit_node_switch(int code) {
         return code == 403 || code == 429 || code==502 || code == 503;
     }
 
@@ -104,7 +104,7 @@ public class MobileClient {
         return super_proxy != null && fail_count < max_failures;
     }
 
-    public void close() {
+    private void close() {
         if (client != null)
             try { client.close(); } catch (IOException e) {}
         client = null;

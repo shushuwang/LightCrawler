@@ -28,7 +28,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
- * proxy
+ * LPM proxy
  *
  * @author shushuwang
  * @create 2018-11-21 10:56
@@ -81,33 +81,6 @@ public class LPMClient extends AbstractClient {
                 .setConnectionTimeToLive(100, TimeUnit.SECONDS)
                 .build();
     }
-    /*
-    public SSLContext createIgnoreVerifySSL() throws NoSuchAlgorithmException, KeyManagementException {
-        SSLContext sc = SSLContext.getInstance("TLS");
-
-        // 实现一个X509TrustManager接口，用于绕过验证，不用修改里面的方法
-        X509TrustManager trustManager = new X509TrustManager() {
-            @Override
-            public void checkClientTrusted(
-                    java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
-                    String paramString) throws CertificateException {
-            }
-
-            @Override
-            public void checkServerTrusted(
-                    java.security.cert.X509Certificate[] paramArrayOfX509Certificate,
-                    String paramString) throws CertificateException {
-            }
-
-            @Override
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-        };
-
-        sc.init(null, new TrustManager[] { trustManager }, null);
-        return sc;
-    }*/
 
     @Override
     public void switch_ip() {
@@ -133,8 +106,6 @@ public class LPMClient extends AbstractClient {
                 request.setHeader(key, headers.get(key));
             }
         }
-//        int proxy_session_id = random.nextInt(Integer.MAX_VALUE);
-//        request.setHeader("x-lpm-session", "dzdp"+proxy_session_id);
         request.setHeader("User-Agent", AbstractClient.user_agents.get(random.nextInt(AbstractClient.user_agents.size())));
         CloseableHttpResponse response = null;
         if (context != null) {

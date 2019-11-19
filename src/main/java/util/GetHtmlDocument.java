@@ -3,7 +3,7 @@ package util;
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import common.AbstractClient;
-import common.LocalClient;
+import ClientProxy.LocalClient;
 import ClientProxy.ResidentialClient;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
